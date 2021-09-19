@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<div id="cartIcon">
+		<h4>Cart_Icon <span></span></h4>
+	</div>
+	<div id="cart">
+		<div id="mainCart" class="01">
+			<div id="top">
+				<img src="image/potato.png">
+				<p id="itemName">Potato</p>
+				<p>Kazi Farm</p>
+				<p> Tk.<span id="price">120/kg</span></p>
+			</div>
+			<div id="btn">
+				<button class="add_to_cart">Add to Cart</button>
+				<button id="details">Details</button>
+			</div>
+		</div>
+		<div id="mainCart" class="02">
+			<div id="top">
+				<img src="image/apple.png">
+				<p id="itemName">Apple</p>
+				<p>Grameen Farm</p>
+				<p> Tk.<span id="price">150/kg</span></p>
+			</div>
+			<div id="btn">
+				<button class="add_to_cart">Add to Cart</button>
+				<button id="details">Details</button>
+			</div>
+		</div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript">
+
+		// getting DOM value of Shopping cart by cartDetails function
+		function cartDetails($btn){
+			// getting cart id
+			let id = $btn.parents('#mainCart').attr('class');
+
+			// getting image path
+			let image = $btn.parents('#mainCart').find('img').attr('src');
+
+			// getting name of the product
+			let name = $btn.parents('#mainCart').find('#itemName').text();
+
+			// getting price of the item
+			let price = $btn.parents('#mainCart').find('#price').text();
+			let newPrice = price.split('/');
+
+			return [id,image,name,newPrice[0]];
+		}
+
+		// when customer click 'Add to cart' button
+		$('.add_to_cart').on('click',function(){
+			let itemDetails = cartDetails($(this));
+			
+		})
+	</script>
+</body>
+</html>
