@@ -6,7 +6,7 @@
 </head>
 <body>
 	<div id="cartIcon">
-		<h4>Cart_Icon <span></span></h4>
+		<h4>Cart_Icon <span id="num"></span></h4>
 	</div>
 	<div id="cart">
 		<div id="mainCart" class="01">
@@ -65,6 +65,7 @@
 				qty++;
 				let data = JSON.stringify([actualData[0],actualData[1],actualData[2],qty]);
 				localStorage.setItem(key,data);
+				update_fontawesome_cart_icon();
 			}else{
 				let qty = 1;
 				let customer_clicked_cart_array = [values[1],values[2],values[3],qty];
@@ -72,15 +73,30 @@
 				// localStorage save item as key value pair. value is saved as string here.so in order to have array from localStorage.we need to convert array to string by stringify function
 				let data = JSON.stringify(customer_clicked_cart_array);
 				localStorage.setItem(key,data);
+				update_fontawesome_cart_icon();
 			}
 		}
 
 		function update_fontawesome_cart_icon(){
 			let qty = 0;
 			if(Object.keys(localStorage).length){
-				let item = Object.keys(localStorage);
+				let itemKeys = Object.keys(localStorage);
+				$.each(itemKeys,function(key,value){
+					let itemValues = localStorage.getItem(value);
+					let items = JSON.parse(itemValues);
+					qty += items[3]; 
+				})
 			}
+
+			// ADD TOTAL QTY BUYER ADD TO CART ICON
+			$('#num').text(qty);
+			return qty;
 		}
+
+		let num = update_fontawesome_cart_icon();
+
+		// WHEN USER REFRESH THE BROWSER
+		$('#num').text(num);
 
 		// when customer click 'Add to cart' button
 		$('.add_to_cart').on('click',function(){
