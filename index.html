@@ -3,22 +3,40 @@
 <head>
 	<meta charset="utf-8">
 	<title></title>
+	<link rel="stylesheet" type="text/css" href="css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 	<div id="cartIcon">
 		<h4>Cart_Icon <span id="num"></span></h4>
 	</div>
 	<div id="shopCart">
-		<h3>&times</h3>
-		<h2>Your Cart</h2>
-		<table>
-			<tr>
-				<th>Name</th>
-				<th>Image</th>
-				<th>Qty</th>
-				<th>&times</th>
-			</tr>
-		</table>
+		<h3 id="close">&times</h3>
+		<div id="cartTop">
+			<h3>Your Cart</h3>
+		</div>
+		<div id="cartMiddle">
+			<div id="imageNamePrice">
+				<div id="cartImage">
+					<img src="image/apple.png">
+				</div>
+				<div id="namePrice">
+					<p>Apple</p>
+					<h3> $ 100 </h3>
+					<button>Remove</button>
+				</div>
+			</div>
+			<div id="fontAwesome">
+				<i class="fas fa-chevron-up"></i>
+				<p>2</p>
+				<i class="fas fa-chevron-down"></i>
+			</div>
+		</div>
+		<p id="total">Cart Total : $ <span>100</span></p>
+		<div id="cartBottom">
+			<button>Clear Cart</button>
+			<button>Proceed to checkout</button>
+		</div>
 	</div>
 	<div id="cart">
 		<div id="mainCart" class="01">
@@ -47,74 +65,6 @@
 		</div>
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script type="text/javascript">
-
-		// getting DOM value of Shopping cart by cartDetails function
-		function cartDetails($btn){
-			// getting cart id
-			let id = $btn.parents('#mainCart').attr('class');
-
-			// getting image path
-			let image = $btn.parents('#mainCart').find('img').attr('src');
-
-			// getting name of the product
-			let name = $btn.parents('#mainCart').find('#itemName').text();
-
-			// getting price of the item
-			let price = $btn.parents('#mainCart').find('#price').text();
-			let newPrice = price.split('/');
-
-			return [id,image,name,newPrice[0]];
-		}
-
-		// customer 'Add to cart' button clicked cart details save to localstorage
-		function save_To_localstorage(key,values){
-			if(localStorage.getItem(key)!=null){
-				let secondClicked = localStorage.getItem(key);
-				// localStorage.getItem give key values as string.we need array here.so we use JSON.parse function to have array
-				let actualData = JSON.parse(secondClicked);
-				let qty = actualData[3];
-				qty++;
-				let data = JSON.stringify([actualData[0],actualData[1],actualData[2],qty]);
-				localStorage.setItem(key,data);
-				update_fontawesome_cart_icon();
-			}else{
-				let qty = 1;
-				let customer_clicked_cart_array = [values[1],values[2],values[3],qty];
-
-				// localStorage save item as key value pair. value is saved as string here.so in order to have array from localStorage.we need to convert array to string by stringify function
-				let data = JSON.stringify(customer_clicked_cart_array);
-				localStorage.setItem(key,data);
-				update_fontawesome_cart_icon();
-			}
-		}
-
-		function update_fontawesome_cart_icon(){
-			let qty = 0;
-			if(Object.keys(localStorage).length){
-				let itemKeys = Object.keys(localStorage);
-				$.each(itemKeys,function(key,value){
-					let itemValues = localStorage.getItem(value);
-					let items = JSON.parse(itemValues);
-					qty += items[3]; 
-				})
-			}
-
-			// ADD TOTAL QTY BUYER ADD TO CART ICON
-			$('#num').text(qty);
-			return qty;
-		}
-
-		let num = update_fontawesome_cart_icon();
-
-		// WHEN USER REFRESH THE BROWSER
-		$('#num').text(num);
-
-		// when customer click 'Add to cart' button
-		$('.add_to_cart').on('click',function(){
-			let itemDetails = cartDetails($(this));
-			save_To_localstorage(itemDetails[0],itemDetails);
-		})
-	</script>
+	<script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>
