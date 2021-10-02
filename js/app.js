@@ -77,7 +77,7 @@
 							<button>Remove</button>
 						</div>
 					</div>
-					<div id="fontAwesome">
+					<div id="fontAwesome" class="${[item[0], item[3]]}">
 						<i class="fas fa-chevron-up"></i>
 						<p id="cart_qty">${item[4]}</p>
 						<i class="fas fa-chevron-down"></i>
@@ -99,7 +99,7 @@
 		const content = $(document.body);
 
 		content.on('click', '.fa-chevron-up',function(){
-			
+			alert('ok');
 		})
 
 		// when customer click 'Add to cart' button
