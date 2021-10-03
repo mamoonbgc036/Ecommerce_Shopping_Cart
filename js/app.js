@@ -30,7 +30,6 @@
 			}else{
 				let qty = 1;
 				let customer_clicked_cart_array = [item[1],item[2],item[3],qty];
-
 				// localStorage save item as key value pair. value is saved as string here.so in order to have array from localStorage.we need to convert array to string by stringify function
 				let data = JSON.stringify(customer_clicked_cart_array);
 				localStorage.setItem(item[0],data);
@@ -49,7 +48,7 @@
 					let itemValues = localStorage.getItem(value);
 					let items = JSON.parse(itemValues);
 					total_cart_money += items[2]*items[3];
-					cart_item_arry[count] = [key, items[0], items[1], items[2], items[3]];
+					cart_item_arry[count] = [value, items[0], items[1], items[2], items[3]];
 					qty += items[3]; 
 					count++;
 				})
@@ -91,15 +90,23 @@
 
 		let num = update_fontawesome_cart_icon();
 
-		console.log(num);
-
+		
 		// WHEN USER REFRESH THE BROWSER
 		$('#num').text(num[0]);
 
 		const content = $(document.body);
-
+		// WHEN USER CLICK UP ARROW
 		content.on('click', '.fa-chevron-up',function(){
-			
+			let id = $(this).parents('#fontAwesome').attr('class');
+			let convertId = id.split(',');
+			let cart_qty = $(this).siblings('#cart_qty').text();
+			cart_qty++;
+			$(this).siblings('#cart_qty').text(cart_qty);
+			save_To_localstorage(convertId);
+		})
+
+		content.on('click', '.fa-chevron-down', function(){
+
 		})
 
 		// when customer click 'Add to cart' button
