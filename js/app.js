@@ -13,7 +13,7 @@
 			let price = $btn.parents('#mainCart').find('#price').text();
 			let newPrice = price.split('/');
 
-			return [id,image,name,newPrice[0]];
+			return [id,'plus',image,name,newPrice[0]];
 		}
 
 		// customer 'Add to cart' button clicked cart details save to localstorage
@@ -23,13 +23,17 @@
 				// localStorage.getItem give key values as string.we need array here.so we use JSON.parse function to have array
 				let actualData = JSON.parse(secondClicked);
 				let qty = actualData[3];
-				qty++;
+				if(item[1]=="plus"){
+					qty++;
+				}else{
+					qty--;
+				}
 				let data = JSON.stringify([actualData[0],actualData[1],actualData[2],qty]);
 				localStorage.setItem(item[0],data);
 				update_fontawesome_cart_icon();
 			}else{
 				let qty = 1;
-				let customer_clicked_cart_array = [item[1],item[2],item[3],qty];
+				let customer_clicked_cart_array = [item[2],item[3],item[4],qty];
 				// localStorage save item as key value pair. value is saved as string here.so in order to have array from localStorage.we need to convert array to string by stringify function
 				let data = JSON.stringify(customer_clicked_cart_array);
 				localStorage.setItem(item[0],data);
@@ -97,16 +101,33 @@
 		const content = $(document.body);
 		// WHEN USER CLICK UP ARROW
 		content.on('click', '.fa-chevron-up',function(){
-			let id = $(this).parents('#fontAwesome').attr('class');
-			let convertId = id.split(',');
-			let cart_qty = $(this).siblings('#cart_qty').text();
-			cart_qty++;
-			$(this).siblings('#cart_qty').text(cart_qty);
-			save_To_localstorage(convertId);
+			let convertId = getId($(this));
+			let dummyArray = [convertId[0],'plus'];
+			save_To_localstorage(dummyArray);
+			updateCart([$(this),'plus']);
 		})
 
-		content.on('click', '.fa-chevron-down', function(){
+		function getId($btn){
+			let id = $btn.parents('#fontAwesome').attr('class');
+			let convertId = id.split(',');
+			return convertId;
+		}
 
+		function updateCart($test){
+			let cart_qty = $test[0].siblings('#cart_qty').text();
+			if ($test[1]=="plus"){
+				cart_qty++;
+			}else{
+				cart_qty--;
+			}
+			$test[0].siblings('#cart_qty').text(cart_qty);
+		}
+
+		content.on('click', '.fa-chevron-down', function(){
+			let convertId = getId($(this));
+			let dummyArray = [convertId[0],'minus'];
+			save_To_localstorage(dummyArray);
+			updateCart([$(this),'minus']);
 		})
 
 		// when customer click 'Add to cart' button
