@@ -69,7 +69,7 @@
 			html += `<div id="mainappend">`;
 			let cart_data = update_fontawesome_cart_icon();
 			cart_data[2].forEach(function(item){
-				html += `<div id="cartMiddle">
+				html += `<div id="cartMiddle" class="${item[0]}">
 					<div id="imageNamePrice">
 						<div id="cartImage">
 							<img src="${item[1]}">
@@ -77,7 +77,7 @@
 						<div id="namePrice">
 							<p>${item[2]}</p>
 							<h3> $ ${item[3]} </h3>
-							<button>Remove</button>
+							<button id="remove">Remove</button>
 						</div>
 					</div>
 					<div id="fontAwesome" class="${[item[0], item[3]]}">
@@ -107,6 +107,11 @@
 			updateCart([$(this),'plus']);
 		})
 
+		content.on('click', '#remove', function(){
+			let id = $(this).parents('#cartMiddle').attr('class');
+			alert(id);
+		})
+
 		function getId($btn){
 			let id = $btn.parents('#fontAwesome').attr('class');
 			let convertId = id.split(',');
@@ -115,12 +120,22 @@
 
 		function updateCart($test){
 			let cart_qty = $test[0].siblings('#cart_qty').text();
+			let id = $test[0].parents('#cartMiddle').attr('class');
 			if ($test[1]=="plus"){
 				cart_qty++;
 			}else{
-				cart_qty--;
+				if(cart_qty<2){
+					removeCart(id);
+				}else{
+					cart_qty--;
+				}
 			}
 			$test[0].siblings('#cart_qty').text(cart_qty);
+		}
+
+		function removeCart(id){
+			$('.'+id).remove();
+			localStorage.removeItem(id);
 		}
 
 		content.on('click', '.fa-chevron-down', function(){
