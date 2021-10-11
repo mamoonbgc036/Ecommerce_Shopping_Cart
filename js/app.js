@@ -76,7 +76,7 @@
 						</div>
 						<div id="namePrice">
 							<p>${item[2]}</p>
-							<h3> $ ${item[3]} </h3>
+							<h3> $ <span id="price">${item[3]}</span> </h3>
 							<button id="remove">Remove</button>
 						</div>
 					</div>
@@ -87,7 +87,7 @@
 					</div>
 				</div>`
 			});
-			html += `<p id="total">Cart Total : $ <span>${cart_data[1]}</span></p>
+			html += `<p id="total">Cart Total : $ <span id="numtotal">${cart_data[1]}</span></p>
 			</div>`;
 			return html;
 		}
@@ -102,9 +102,12 @@
 		// WHEN USER CLICK UP ARROW
 		content.on('click', '.fa-chevron-up',function(){
 			let convertId = getId($(this));
+			let total = $(this).parents('#mainappend').find('#numtotal').text();
+			let price = $(this).parents('#mainappend').find('#price').text();
+			alert(price);
 			let dummyArray = [convertId[0],'plus'];
 			save_To_localstorage(dummyArray);
-			updateCart([$(this),'plus']);
+			updateCart([$(this),'plus', total]);
 		})
 
 		content.on('click', '#remove', function(){
