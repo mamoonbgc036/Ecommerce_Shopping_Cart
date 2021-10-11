@@ -102,13 +102,17 @@
 		// WHEN USER CLICK UP ARROW
 		content.on('click', '.fa-chevron-up',function(){
 			let convertId = getId($(this));
-			let total = $(this).parents('#mainappend').find('#numtotal').text();
-			let price = $(this).parents('#mainappend').find('#price').text();
-			alert(price);
+			let price_total = get_total_price($(this));
 			let dummyArray = [convertId[0],'plus'];
 			save_To_localstorage(dummyArray);
-			updateCart([$(this),'plus', total]);
+			updateCart([$(this),'plus', price_total[0], price_total[1]]);
 		})
+
+		function get_total_price($btn){
+			let total = $btn.parents('#mainappend').find('#numtotal').text();
+			let price = $btn.parents('#cartMiddle').find('#price').text();
+			return [price, total];
+		}
 
 		content.on('click', '#remove', function(){
 			let id = $(this).parents('#cartMiddle').attr('class');
@@ -124,16 +128,23 @@
 		function updateCart($test){
 			let cart_qty = $test[0].siblings('#cart_qty').text();
 			let id = $test[0].parents('#cartMiddle').attr('class');
+			let price = parseInt($test[2]);
+			let total = parseInt($test[3]);
+			let totalAmount = 0;
 			if ($test[1]=="plus"){
 				cart_qty++;
+				totalAmount = price + total;
 			}else{
 				if(cart_qty<2){
 					removeCart(id);
 				}else{
 					cart_qty--;
 				}
+				totalAmount = total - price;
 			}
 			$test[0].siblings('#cart_qty').text(cart_qty);
+			//$test[0].parents('#mainappend').text(totalAmount);
+			$('#numtotal').text(totalAmount);
 		}
 
 		function removeCart(id){
@@ -143,9 +154,10 @@
 
 		content.on('click', '.fa-chevron-down', function(){
 			let convertId = getId($(this));
+			let price_total = get_total_price($(this));
 			let dummyArray = [convertId[0],'minus'];
 			save_To_localstorage(dummyArray);
-			updateCart([$(this),'minus']);
+			updateCart([$(this),'minus', price_total[0], price_total[1]]);
 		})
 
 		// when customer click 'Add to cart' button
