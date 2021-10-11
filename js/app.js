@@ -1,16 +1,15 @@
 		// getting DOM value of Shopping cart by cartDetails function
 		function cartDetails($btn){
 			// getting cart id
-			let id = $btn.parents('#mainCart').attr('class');
-
+			let id = $btn.parents('.mainCart').attr('id');
 			// getting image path
-			let image = $btn.parents('#mainCart').find('img').attr('src');
+			let image = $btn.parents('.mainCart').find('img').attr('src');
 
 			// getting name of the product
-			let name = $btn.parents('#mainCart').find('#itemName').text();
+			let name = $btn.parents('.mainCart').find('#itemName').text();
 
 			// getting price of the item
-			let price = $btn.parents('#mainCart').find('#price').text();
+			let price = $btn.parents('.mainCart').find('#price').text();
 			let newPrice = price.split('/');
 
 			return [id,'plus',image,name,newPrice[0]];
@@ -50,6 +49,7 @@
 				let itemKeys = Object.keys(localStorage);
 				$.each(itemKeys,function(key,value){
 					let itemValues = localStorage.getItem(value);
+					console.log(value);
 					let items = JSON.parse(itemValues);
 					total_cart_money += items[2]*items[3];
 					cart_item_arry[count] = [value, items[0], items[1], items[2], items[3]];
