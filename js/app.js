@@ -109,14 +109,23 @@
 
 		function get_total_price($btn){
 			let total = $btn.parents('#mainappend').find('#numtotal').text();
+			alert(total);
+			let mTotal = parseInt(total);
 			let price = $btn.parents('#cartMiddle').find('#price').text();
+			let mPrice = parseInt(price);
 			let qty = $btn.parents('#cartMiddle').find('#cart_qty').text();
-			return [price, total, qty];
+			let mQty = parseInt(qty);
+			return [mPrice, mTotal, mQty];
 		}
 		// working
 		content.on('click', '#remove', function(){
 			let id = $(this).parents('#cartMiddle').attr('class');
+			removeCart(id);
 			let price_qty = get_total_price($(this));
+			console.log(price_qty);
+			let deduct = price_qty[0]*price_qty[2];
+			let totalAmount = price_qty[1]-deduct;
+			$('#numtotal').text(totalAmount);
 		})
 
 		function getId($btn){
@@ -128,19 +137,17 @@
 		function updateCart($test){
 			let cart_qty = $test[0].siblings('#cart_qty').text();
 			let id = $test[0].parents('#cartMiddle').attr('class');
-			let price = parseInt($test[2]);
-			let total = parseInt($test[3]);
 			let totalAmount = 0;
 			if ($test[1]=="plus"){
 				cart_qty++;
-				totalAmount = price + total;
+				totalAmount = $test[2] + $test[3];
 			}else{
 				if(cart_qty<2){
 					removeCart(id);
 				}else{
 					cart_qty--;
 				}
-				totalAmount = total - price;
+				totalAmount = $test[3] - $test[2];
 			}
 			$test[0].siblings('#cart_qty').text(cart_qty);
 			//$test[0].parents('#mainappend').text(totalAmount);
