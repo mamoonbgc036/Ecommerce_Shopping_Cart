@@ -49,7 +49,6 @@
 				let itemKeys = Object.keys(localStorage);
 				$.each(itemKeys,function(key,value){
 					let itemValues = localStorage.getItem(value);
-					console.log(value);
 					let items = JSON.parse(itemValues);
 					total_cart_money += items[2]*items[3];
 					cart_item_arry[count] = [value, items[0], items[1], items[2], items[3]];
@@ -109,7 +108,6 @@
 
 		function get_total_price($btn){
 			let total = $btn.parents('#mainappend').find('#numtotal').text();
-			alert(total);
 			let mTotal = parseInt(total);
 			let price = $btn.parents('#cartMiddle').find('#price').text();
 			let mPrice = parseInt(price);
@@ -120,12 +118,12 @@
 		// working
 		content.on('click', '#remove', function(){
 			let id = $(this).parents('#cartMiddle').attr('class');
-			removeCart(id);
+			//let am = $(this).parents('#mainappend').find('#numtotal').text();
 			let price_qty = get_total_price($(this));
-			console.log(price_qty);
 			let deduct = price_qty[0]*price_qty[2];
 			let totalAmount = price_qty[1]-deduct;
 			$('#numtotal').text(totalAmount);
+			removeCart(id);
 		})
 
 		function getId($btn){
