@@ -94,7 +94,6 @@
 
 		let num = update_fontawesome_cart_icon();
 
-		
 		// WHEN USER REFRESH THE BROWSER
 		$('#num').text(num[0]);
 
@@ -111,12 +110,13 @@
 		function get_total_price($btn){
 			let total = $btn.parents('#mainappend').find('#numtotal').text();
 			let price = $btn.parents('#cartMiddle').find('#price').text();
-			return [price, total];
+			let qty = $btn.parents('#cartMiddle').find('#cart_qty').text();
+			return [price, total, qty];
 		}
-
+		// working
 		content.on('click', '#remove', function(){
 			let id = $(this).parents('#cartMiddle').attr('class');
-			alert(id);
+			let price_qty = get_total_price($(this));
 		})
 
 		function getId($btn){
