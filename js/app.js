@@ -124,6 +124,7 @@
 			let totalAmount = price_qty[1]-deduct;
 			$('#numtotal').text(totalAmount);
 			removeCart(id);
+			update_fontawesome_cart_icon();
 		})
 
 		function getId($btn){
