@@ -154,8 +154,13 @@
 		}
 
 		function removeCart(id){
-			$('.'+id).remove();
-			localStorage.removeItem(id);
+			if(id){
+				$('.'+id).remove();
+				localStorage.removeItem(id);
+			} else{
+				$('#mainappend').remove();
+				localStorage.clear();
+			}
 		}
 
 		content.on('click', '.fa-chevron-down', function(){
@@ -182,4 +187,8 @@
 		$('#cartIcon').on('click',function(){
 			$('#append').append(display_cart());
 			$('#shopCart').css('transform','translateX(0%)')
+		})
+
+		$('#cartBottom button').on('click', function(){
+			removeCart();
 		})
