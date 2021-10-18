@@ -161,6 +161,7 @@
 				$('#mainappend').remove();
 				localStorage.clear();
 			}
+			update_fontawesome_cart_icon();
 		}
 
 		content.on('click', '.fa-chevron-down', function(){
